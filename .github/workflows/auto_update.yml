@@ -2,7 +2,7 @@ name: Auto Update
 
 on:
   schedule:
-    - cron: "*/9 * * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -21,7 +21,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
-          # token 不传 → 用默认 GITHUB_TOKEN
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -35,7 +34,6 @@ jobs:
 
       - name: Run script
         env:
-          # 保留同名 env 变量,免得 main.py 内部读 os.environ["MY_TOKEN"] 炸了
           MY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: "github-actions[bot]"
           GIT_AUTHOR_EMAIL: "github-actions[bot]@users.noreply.github.com"
